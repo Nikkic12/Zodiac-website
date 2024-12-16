@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheCelestialOracle</title> 
+</head>
+<body> 
+    <h2> The Celestial Oracle</h2>
+    <h3 style = "text-align: center;">HOME &nbsp; HOROSCOPE &nbsp; ZODIAC</h3><br>
+    <header style = "text-align: center;">Welcome to Horoscope and Zodiac Sign Finder!</header><br>
+    <div class="image-container", style = "text-align: center;"> 
+        <img src="astrology_banner.png" alt="Image Placeholder"> 
+    </div> <br>
+    <div class="form-container", style = "text-align: center;"> 
+        <form id="signForm">
+            <label for="name">Enter Your Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="birthday">Enter Your Birthday (MM/DD):</label> 
+            <input type="data" id="birthday" name="birthday" required>
+            <button type="submit"> Submit</button>
+
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        const horoscopeSigns = [
+        { sign: 'Aries', start: '03-21', end: '04-19' },
+        { sign: 'Taurus', start: '04-20', end: '05-20' },
+        { sign: 'Gemini', start: '05-21', end: '06-20' },
+        { sign: 'Cancer', start: '06-21', end: '07-22' },
+        { sign: 'Leo', start: '07-23', end: '08-22' },
+        { sign: 'Virgo', start: '08-23', end: '09-22' },
+        { sign: 'Libra', start: '09-23', end: '10-22' },
+        { sign: 'Scorpio', start: '10-23', end: '11-21' },
+        { sign: 'Sagittarius', start: '11-22', end: '12-21' },
+        { sign: 'Capricorn', start: '12-22', end: '01-19' },
+        { sign: 'Aquarius', start: '01-20', end: '02-18' },
+        { sign: 'Pisces', start: '02-19', end: '03-20' }
+    ];
+    function getSign(birthday) {
+        const date = new Date(birthday);
+        const month = date.getMonth() + 1; 
+        const day = date.getDate(); 
+        const formatted_date = `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+        for (const horoscope of horoscopeSigns) {
+            if (formatted_date >= horoscope.start && formatted_date <= horoscope.end) {
+                return horoscope.sign; 
+            }
+        }
+        // not found in range due to year overflow  
+        return 'Capricorn'; 
+    }
+    // handle input submissions 
+    document.getElementById('signForm').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        const name = document.getElementById('name').value; 
+        const birthday = document.getElementById('birthday').value; 
+        const birthday_format = /^(0[1-9]|1[0-2])\/([0-2][0-9]|3[01])$/;
+        if (!birthday_format.test(birthday)) {
+            document.getElementById('result').innerHTML = 'Sorry, wrong input format. Please use MM/DD'; 
+            return; 
+        }
+        
+        if (name && birthday) {
+            const horoscopeSigns = getSign(birthday); 
+            document.getElementById('result').innerHTML = `${name}, your Zodiac sign is <strong>${horoscopeSigns}</strong>`; 
+        
+        }
+        else {
+            document.getElementById('result').innerHTML = 'No result.'; 
+        }
+
+    });
+     
+    </script>
+</body>
+</html>
